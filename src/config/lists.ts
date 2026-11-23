@@ -1,5 +1,5 @@
 // Regras das listas automáticas (spec, seção 7.2). Ajuste os números aqui.
-import { ALL_COVERED_PROVIDER_IDS, COVERED_SERVICES, type CoveredService } from "./services";
+import { ALL_COVERED_PROVIDER_IDS, COVERED_SERVICES, getServiceBySlug, type CoveredService } from "./services";
 import type { DiscoverFilters } from "@/lib/tmdb/types";
 
 export type HomeList = { id: string; title: string; filters: DiscoverFilters; href: string };
@@ -65,32 +65,47 @@ export function getHomeLists(today: Date): HomeList[] {
       id: `genero-${g.slug}`,
       title: g.name,
       filters: { providerIds: all, genreIds: [g.id], ...GENRE_ROWS, sortBy: "popularity.desc" as const },
-      href: exploreHref({ genero: g.id, nota: GENRE_ROWS.minRating }),
+      href: `/genero/${g.slug}`,
     })),
   ];
 }
 
-export function getServiceLists(service: CoveredService, today: Date): HomeList[] {
-  const ids = service.tmdbProviderIds;
+/** Faixas das páginas de serviço e de gênero. */
+function catalogLists(
+  base: Pick<DiscoverFilters, "providerIds" | "genreIds">,
+  link: { servico?: string; genero?: number },
+  today: Date,
+): HomeList[] {
   const releasedFrom = monthsAgo(today, RELEASES.months);
   return [
     {
       id: "em-alta",
       title: "Em alta",
-      filters: { providerIds: ids, sortBy: "popularity.desc" },
-      href: exploreHref({ servico: service.slug }),
+      filters: { ...base, sortBy: "popularity.desc" },
+      href: exploreHref(link),
     },
     {
       id: "mais-bem-avaliados",
       title: "Mais bem avaliados",
-      filters: { providerIds: ids, ...SERVICE_HIGHLIGHTS, sortBy: "vote_average.desc" },
-      href: exploreHref({ servico: service.slug, nota: SERVICE_HIGHLIGHTS.minRating, ordem: "nota" }),
+      filters: { ...base, ...SERVICE_HIGHLIGHTS, sortBy: "vote_average.desc" },
+      href: exploreHref({ ...link, nota: SERVICE_HIGHLIGHTS.minRating, ordem: "nota" }),
     },
     {
       id: "lancamentos",
       title: "Lançamentos",
-      filters: { providerIds: ids, releasedFrom, minVotes: RELEASES.minVotes, sortBy: "primary_release_date.desc" },
-      href: exploreHref({ servico: service.slug, de: releasedFrom.slice(0, 4), ordem: "lancamento" }),
+      filters: { ...base, releasedFrom, minVotes: RELEASES.minVotes, sortBy: "primary_release_date.desc" },
+      href: exploreHref({ ...link, de: releasedFrom.slice(0, 4), ordem: "lancamento" }),
     },
   ];
+}
+
+export function getServiceLists(service: CoveredService, today: Date): HomeList[] {
+  return catalogLists({ providerIds: service.tmdbProviderIds }, { servico: service.slug }, today);
+}
+
+export function getGenreLists(genreId: number, services: string[], today: Date): HomeList[] {
+  const providerIds = services.length
+    ? services.flatMap((s) => getServiceBySlug(s)?.tmdbProviderIds ?? [])
+    : ALL_COVERED_PROVIDER_IDS;
+  return catalogLists({ providerIds, genreIds: [genreId] }, { servico: services.join(",") || undefined, genero: genreId }, today);
 }

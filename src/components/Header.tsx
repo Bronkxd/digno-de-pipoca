@@ -26,8 +26,13 @@ export function Header() {
           Explorar
         </Link>
       </div>
-      <nav aria-label="Serviços" className="mx-auto max-w-6xl trilho overflow-x-auto px-4 pb-2">
+      <nav aria-label="Gêneros e serviços" className="mx-auto max-w-6xl trilho overflow-x-auto px-4 pb-2">
         <ul className="flex gap-5 py-1 font-medium whitespace-nowrap">
+          <li className="border-r border-white/50 pr-5">
+            <Link href="/generos" className="font-bold underline-offset-4 hover:underline">
+              Gêneros
+            </Link>
+          </li>
           {COVERED_SERVICES.map((s) => (
             <li key={s.slug}>
               <Link href={`/servico/${s.slug}`} className="underline-offset-4 hover:underline">

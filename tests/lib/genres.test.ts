@@ -6,7 +6,21 @@ vi.mock("@/lib/tmdb/client", () => ({
 }));
 
 import { tmdbFetch } from "@/lib/tmdb/client";
-import { getGenres } from "@/lib/tmdb/genres";
+import { getGenres, genreSlug, genreTitle } from "@/lib/tmdb/genres";
+
+describe("genreSlug", () => {
+  it.each([["Ficção científica", "ficcao-cientifica"], ["Comédia", "comedia"], ["Cinema TV", "cinema-tv"]])("%s", (n, s) =>
+    expect(genreSlug(n)).toBe(s));
+});
+
+describe("genreTitle", () => {
+  it.each([
+    [27, "Terror", "Filmes de terror"],
+    [99, "Documentário", "Documentários"],
+    [10751, "Família", "Filmes para a família"],
+    [10770, "Cinema TV", "Filmes feitos para TV"],
+  ])("%s", (id, name, title) => expect(genreTitle({ id, name })).toBe(title));
+});
 
 describe("getGenres", () => {
   it("busca a lista de gêneros com cache estático e ordena por nome", async () => {

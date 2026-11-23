@@ -3,10 +3,9 @@ import { notFound } from "next/navigation";
 import { connection } from "next/server";
 import { getServiceBySlug } from "@/config/services";
 import { getServiceLists } from "@/config/lists";
-import { discoverMovies } from "@/lib/tmdb/discover";
-import { parseExploreParams, toDiscoverFilters, toSearchString } from "@/lib/explore-params";
-import { PosterRow } from "@/components/PosterRow";
-import { LoadMoreGrid } from "@/components/LoadMoreGrid";
+import { loadCatalog } from "@/lib/catalog";
+import { parseExploreParams, toSearchString } from "@/lib/explore-params";
+import { CatalogSections } from "@/components/CatalogSections";
 
 export async function generateMetadata({ params }: PageProps<"/servico/[slug]">): Promise<Metadata> {
   const service = getServiceBySlug((await params).slug);
@@ -26,29 +25,16 @@ export default async function ServicePage({ params }: PageProps<"/servico/[slug]
 
   const lists = getServiceLists(service, new Date());
   const q = parseExploreParams({ servico: service.slug });
-  const [rows, [grid]] = await Promise.all([
-    Promise.allSettled(lists.map((l) => discoverMovies(l.filters, 1))),
-    Promise.allSettled([discoverMovies(toDiscoverFilters(q), 1)]),
-  ]);
-  if (grid.status === "rejected" && rows.every((r) => r.status === "rejected")) throw grid.reason;
+  const catalog = await loadCatalog(lists, q);
 
   return (
     <div className="space-y-10">
       <h1 className="faixa -mt-6 bg-butter py-10 text-4xl sm:text-5xl">Filmes {service.inName}</h1>
-      {lists.map((list, i) => {
-        const r = rows[i];
-        return r.status === "fulfilled" ? (
-          <PosterRow key={list.id} title={list.title} href={list.href} movies={r.value.results} />
-        ) : null;
-      })}
-      <section aria-labelledby="todos" className="space-y-4">
-        <h2 id="todos" className="text-2xl sm:text-3xl">Todos os filmes {service.inName}</h2>
-        {grid.status === "fulfilled" ? (
-          <LoadMoreGrid initial={grid.value} searchString={toSearchString(q)} />
-        ) : (
-          <p className="text-muted">Não foi possível carregar esta lista agora. Tente de novo em alguns minutos.</p>
-        )}
-      </section>
+      <CatalogSections
+        catalog={catalog}
+        gridTitle={`Todos os filmes ${service.inName}`}
+        searchString={toSearchString(q)}
+      />
     </div>
   );
 }

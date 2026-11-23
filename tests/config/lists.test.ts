@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { getHomeLists, getServiceLists } from "@/config/lists";
+import { getHomeLists, getServiceLists, getGenreLists } from "@/config/lists";
 import { getServiceBySlug, ALL_COVERED_PROVIDER_IDS } from "@/config/services";
 
 const today = new Date("2026-11-23T12:00:00Z");
@@ -33,7 +33,24 @@ describe("getHomeLists", () => {
     ]);
     expect(ls[0].href).toBe("/explorar?de=2025&ordem=lancamento");
     expect(ls[2].href).toBe("/explorar?nota=7.5&ordem=nota");
-    expect(ls[10].href).toBe("/explorar?genero=35&nota=6.5");
+    expect(ls[10].href).toBe("/genero/comedia");
+  });
+});
+
+describe("getGenreLists", () => {
+  it("sem streaming escolhido usa todos os serviços", () => {
+    const ls = getGenreLists(27, [], today);
+    expect(ls.map((l) => l.title)).toEqual(["Em alta", "Mais bem avaliados", "Lançamentos"]);
+    expect(ls.every((l) => l.filters.genreIds?.join() === "27" && l.filters.providerIds.length === ALL_COVERED_PROVIDER_IDS.length)).toBe(true);
+    expect(ls[1].filters).toMatchObject({ minRating: 7, minVotes: 300, sortBy: "vote_average.desc" });
+    expect(ls.map((l) => l.href)).toEqual([
+      "/explorar?genero=27", "/explorar?genero=27&nota=7&ordem=nota", "/explorar?genero=27&de=2025&ordem=lancamento",
+    ]);
+  });
+  it("com streaming restringe a consulta e o link", () => {
+    const ls = getGenreLists(27, ["netflix", "max"], today);
+    expect(ls[0].filters.providerIds).toEqual([8, 1796, 1899]);
+    expect(ls[0].href).toBe("/explorar?servico=netflix%2Cmax&genero=27");
   });
 });
 
