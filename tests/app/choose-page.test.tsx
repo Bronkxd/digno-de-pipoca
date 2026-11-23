@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 
+vi.mock("next/navigation", () => ({ useRouter: () => ({ push: vi.fn() }) }));
 vi.mock("@/lib/tmdb/choose", () => ({ findMovies: vi.fn() }));
 import { findMovies } from "@/lib/tmdb/choose";
 import ChoosePage from "@/app/escolher/page";
