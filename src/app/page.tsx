@@ -25,7 +25,7 @@ export default async function HomePage() {
   return (
     <div className="space-y-12">
       {featured.length > 0 ? (
-        <FeaturedPicker movies={featured} />
+        <FeaturedPicker movies={featured} helpLink />
       ) : (
         <h1 className="text-4xl">O que vale a pena assistir hoje?</h1>
       )}

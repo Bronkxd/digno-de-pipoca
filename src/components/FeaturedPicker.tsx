@@ -16,7 +16,12 @@ const BURST = Array.from({ length: 16 }, (_, i) => {
 });
 
 /** Destaque da página inicial: o pôster sai do saquinho e o botão estoura outro filme. */
-export function FeaturedPicker({ movies }: { movies: MovieSummary[] }) {
+export function FeaturedPicker({ movies, heading = "O que vale a pena assistir hoje?", note, helpLink = false }: {
+  movies: MovieSummary[];
+  heading?: string;
+  note?: string;
+  helpLink?: boolean;
+}) {
   const [turn, setTurn] = useState(0);
   const movie = movies[turn % movies.length];
   const next = movies[(turn + 1) % movies.length];
@@ -36,7 +41,10 @@ export function FeaturedPicker({ movies }: { movies: MovieSummary[] }) {
   return (
     <section aria-label="Filme em destaque" className="faixa -mt-6 mb-8 overflow-hidden bg-butter">
       <div className="grid gap-x-12 gap-y-6 pt-8 lg:min-h-[36rem] lg:grid-cols-[1.15fr_1fr] lg:grid-rows-[1fr_auto_1fr]">
-        <h1 className="text-4xl sm:text-5xl lg:self-end lg:text-6xl">O que vale a pena assistir hoje?</h1>
+        <div className="space-y-2 lg:self-end">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl">{heading}</h1>
+          {note && <p className="text-lg font-semibold">{note}</p>}
+        </div>
 
         <div className="relative mx-auto w-64 self-end sm:w-80 lg:col-start-2 lg:row-span-3 lg:row-start-1 lg:w-[24rem]">
           <div key={`poster-${turn}`} className="sobe relative mx-auto -mb-[46%] w-[66%]">
@@ -83,6 +91,11 @@ export function FeaturedPicker({ movies }: { movies: MovieSummary[] }) {
               <button type="button" onClick={() => setTurn((t) => t + 1)} className="botao botao-claro">
                 Estourar outro filme
               </button>
+            )}
+            {helpLink && (
+              <Link href="/escolher" className="self-center font-bold underline underline-offset-4">
+                Me ajude a escolher
+              </Link>
             )}
           </div>
         </div>

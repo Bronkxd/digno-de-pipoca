@@ -28,6 +28,11 @@ export function Header() {
       </div>
       <nav aria-label="Gêneros e serviços" className="mx-auto max-w-6xl trilho overflow-x-auto px-4 pb-2">
         <ul className="flex gap-5 py-1 font-medium whitespace-nowrap">
+          <li>
+            <Link href="/escolher" className="font-bold underline-offset-4 hover:underline">
+              Me ajude a escolher
+            </Link>
+          </li>
           <li className="border-r border-white/50 pr-5">
             <Link href="/generos" className="font-bold underline-offset-4 hover:underline">
               Gêneros

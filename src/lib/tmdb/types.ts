@@ -14,7 +14,12 @@ export type SortBy = "popularity.desc" | "vote_average.desc" | "primary_release_
 
 export type DiscoverFilters = {
   providerIds: number[];
-  genreIds?: number[];
+  genreIds?: number[]; // todos (E)
+  anyGenreIds?: number[]; // qualquer um (OU)
+  withoutGenreIds?: number[];
+  minRuntime?: number;
+  maxRuntime?: number;
+  maxAge?: number; // classificação brasileira
   releasedFrom?: string; // "YYYY-MM-DD"
   releasedTo?: string; // "YYYY-MM-DD"
   minRating?: number;

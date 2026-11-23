@@ -25,6 +25,14 @@ export function buildDiscoverParams(f: DiscoverFilters, today: Date): Record<str
     "primary_release_date.lte": f.releasedTo && f.releasedTo < todayIso ? f.releasedTo : todayIso,
   };
   if (f.genreIds?.length) params.with_genres = f.genreIds.join(",");
+  if (f.anyGenreIds?.length) params.with_genres = f.anyGenreIds.join("|");
+  if (f.withoutGenreIds?.length) params.without_genres = f.withoutGenreIds.join(",");
+  if (f.minRuntime !== undefined) params["with_runtime.gte"] = String(f.minRuntime);
+  if (f.maxRuntime !== undefined) params["with_runtime.lte"] = String(f.maxRuntime);
+  if (f.maxAge !== undefined) {
+    params.certification_country = "BR";
+    params["certification.lte"] = String(f.maxAge);
+  }
   if (f.releasedFrom) params["primary_release_date.gte"] = f.releasedFrom;
   if (f.minRating !== undefined) params["vote_average.gte"] = String(f.minRating);
 

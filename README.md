@@ -9,6 +9,7 @@ Catálogo que responde "o que vale a pena assistir hoje?" com os filmes incluíd
 ## O que faz
 
 - Sugere um filme em destaque, com um saquinho de pipoca que enche conforme a nota.
+- Ajuda a escolher com três perguntas (clima, tempo e companhia), conferindo a duração e a classificação de cada filme quando a resposta exige.
 - Monta listas automáticas: lançamentos, em alta, mais bem avaliados, por streaming e por gênero.
 - Mostra em cada filme a nota, o número de votos, o trailer, o elenco, as resenhas e onde assistir.
 - Permite explorar com filtros que ficam no endereço e podem ser compartilhados.
