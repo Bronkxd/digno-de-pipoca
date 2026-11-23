@@ -50,7 +50,7 @@ npm run dev
 
 ## Como foi feito
 
-Projeto desenvolvido com ajuda de IA (Claude Code).
+Criado por BronkxDev (bronkxdev@gmail.com): ideia, escolhas e direção. Código desenvolvido com ajuda de IA (Claude Code).
 
 ## Créditos
 

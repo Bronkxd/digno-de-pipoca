@@ -16,6 +16,7 @@ const titan = Titan_One({
 });
 
 export const metadata: Metadata = {
+  authors: [{ name: "BronkxDev" }],
   metadataBase: new URL("https://digno-de-pipoca.vercel.app"),
   openGraph: { siteName: "Digno de Pipoca", locale: "pt_BR", type: "website" },
   twitter: { card: "summary_large_image" },

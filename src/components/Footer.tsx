@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export function Footer() {
   return (
@@ -10,6 +11,12 @@ export function Footer() {
         <div className="space-y-1 sm:text-right">
           <p>This product uses the TMDB API but is not endorsed or certified by TMDB.</p>
           <p>Dados de disponibilidade: JustWatch</p>
+          <p>
+            Criado por BronkxDev.{" "}
+            <Link href="/sobre" className="font-semibold underline underline-offset-4">
+              Sobre o projeto
+            </Link>
+          </p>
         </div>
       </div>
     </footer>
