@@ -13,7 +13,9 @@ const item = (id: number, poster: string | null) => ({
   id, title: `F${id}`, poster_path: poster, release_date: "2020-01-02", vote_average: 7, vote_count: 10,
 });
 
-beforeEach(() => vi.mocked(tmdbFetch).mockReset());
+beforeEach(() => {
+  vi.mocked(tmdbFetch).mockReset();
+});
 
 describe("buildDiscoverParams", () => {
   it("parâmetros fixos de disponibilidade", () =>
