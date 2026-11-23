@@ -40,7 +40,7 @@ export function FeaturedPicker({ movies, heading = "O que vale a pena assistir h
 
   return (
     <section aria-label="Filme em destaque" className="faixa -mt-6 mb-8 overflow-hidden bg-butter">
-      <div className="grid gap-x-12 gap-y-6 pt-8 lg:min-h-[36rem] lg:grid-cols-[1.15fr_1fr] lg:grid-rows-[1fr_auto_1fr]">
+      <div className="grid gap-x-8 gap-y-6 xl:gap-x-12 pt-8 lg:min-h-[36rem] lg:grid-cols-[1fr_24rem] lg:grid-rows-[1fr_auto_1fr]">
         <div className="space-y-2 lg:self-end">
           <h1 className="text-4xl sm:text-5xl lg:text-6xl">{heading}</h1>
           {note && <p className="text-lg font-semibold">{note}</p>}
@@ -83,7 +83,7 @@ export function FeaturedPicker({ movies, heading = "O que vale a pena assistir h
               {movie.overview && <p className="line-clamp-4 max-w-xl text-lg leading-relaxed">{movie.overview}</p>}
             </div>
           </div>
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap gap-2 xl:gap-3">
             <Link href={`/filme/${movie.id}`} className="botao">
               Ver onde assistir
             </Link>
@@ -93,7 +93,7 @@ export function FeaturedPicker({ movies, heading = "O que vale a pena assistir h
               </button>
             )}
             {helpLink && (
-              <Link href="/escolher" className="self-center font-bold underline underline-offset-4">
+              <Link href="/escolher" className="botao botao-claro">
                 Me ajude a escolher
               </Link>
             )}

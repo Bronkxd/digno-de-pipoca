@@ -66,6 +66,7 @@ describe("Header", () => {
     expect(input.closest("form")).toHaveAttribute("action", "/busca");
     expect(screen.getByRole("link", { name: "Digno de Pipoca" })).toHaveAttribute("href", "/");
     expect(screen.getByRole("link", { name: "Explorar" })).toHaveAttribute("href", "/explorar");
+    expect(screen.getByRole("link", { name: "Sobre" })).toHaveAttribute("href", "/sobre");
     expect(screen.getByRole("link", { name: "Gêneros" })).toHaveAttribute("href", "/generos");
     expect(screen.getByRole("link", { name: "Netflix" })).toHaveAttribute("href", "/servico/netflix");
   });

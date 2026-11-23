@@ -22,20 +22,25 @@ export function Header() {
             className="w-full rounded-full bg-white px-4 py-2 text-foreground placeholder:text-muted"
           />
         </form>
-        <Link href="/explorar" className="ml-auto font-semibold underline-offset-4 hover:underline sm:ml-0">
-          Explorar
+        <Link href="/sobre" className="ml-auto font-semibold underline-offset-4 hover:underline sm:ml-0">
+          Sobre
         </Link>
       </div>
-      <nav aria-label="Gêneros e serviços" className="mx-auto max-w-6xl trilho overflow-x-auto px-4 pb-2">
+      <nav aria-label="Navegação principal" className="mx-auto max-w-6xl trilho overflow-x-auto px-4 pb-2">
         <ul className="flex gap-5 py-1 font-medium whitespace-nowrap">
           <li>
             <Link href="/escolher" className="font-bold underline-offset-4 hover:underline">
               Me ajude a escolher
             </Link>
           </li>
-          <li className="border-r border-white/50 pr-5">
+          <li>
             <Link href="/generos" className="font-bold underline-offset-4 hover:underline">
               Gêneros
+            </Link>
+          </li>
+          <li className="border-r border-white/50 pr-5">
+            <Link href="/explorar" className="font-bold underline-offset-4 hover:underline">
+              Explorar
             </Link>
           </li>
           {COVERED_SERVICES.map((s) => (

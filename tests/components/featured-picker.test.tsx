@@ -18,6 +18,15 @@ describe("FeaturedPicker", () => {
   });
 });
 
+describe("ajuda para escolher", () => {
+  it("é um botão como os outros e leva a /escolher", () => {
+    render(<FeaturedPicker movies={[m(1), m(2)]} helpLink />);
+    const link = screen.getByRole("link", { name: "Me ajude a escolher" });
+    expect(link).toHaveAttribute("href", "/escolher");
+    expect(link).toHaveClass("botao", "botao-claro");
+  });
+});
+
 describe("kernelCount", () => {
   it("enche conforme a nota", () => {
     expect(kernelCount(9, 10, 27)).toBe(27);
