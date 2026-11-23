@@ -8,7 +8,7 @@ describe("/sobre", () => {
     render(<AboutPage />);
     expect(screen.getByRole("heading", { level: 1, name: "Sobre o projeto" })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "bronkxdev@gmail.com" })).toHaveAttribute("href", "mailto:bronkxdev@gmail.com");
-    expect(screen.getAllByText(/BronkxDev/).length).toBeGreaterThan(0);
+    expect(screen.getByText(/Sou Caio./)).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Ver o código no GitHub" })).toHaveAttribute("href", "https://github.com/Bronkxd/digno-de-pipoca");
     expect(screen.getByText(/ajuda de IA/)).toBeInTheDocument();
   });
@@ -16,6 +16,6 @@ describe("/sobre", () => {
   it("o rodapé leva à página", () => {
     render(<Footer />);
     expect(screen.getByRole("link", { name: "Sobre o projeto" })).toHaveAttribute("href", "/sobre");
-    expect(screen.getByText(/Criado por BronkxDev/)).toBeInTheDocument();
+    expect(screen.getByText(/Criado por Caio/)).toBeInTheDocument();
   });
 });

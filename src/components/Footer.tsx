@@ -12,7 +12,7 @@ export function Footer() {
           <p>This product uses the TMDB API but is not endorsed or certified by TMDB.</p>
           <p>Dados de disponibilidade: JustWatch</p>
           <p>
-            Criado por BronkxDev.{" "}
+            Criado por Caio.{" "}
             <Link href="/sobre" className="font-semibold underline underline-offset-4">
               Sobre o projeto
             </Link>
