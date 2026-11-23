@@ -1,5 +1,7 @@
 # Digno de Pipoca
 
+[![Testes](https://github.com/Bronkxd/digno-de-pipoca/actions/workflows/testes.yml/badge.svg)](https://github.com/Bronkxd/digno-de-pipoca/actions/workflows/testes.yml)
+
 Catálogo que responde "o que vale a pena assistir hoje?" com os filmes incluídos na assinatura dos principais streamings do Brasil.
 
 **No ar:** https://digno-de-pipoca.vercel.app

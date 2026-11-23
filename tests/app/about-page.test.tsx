@@ -9,6 +9,7 @@ describe("/sobre", () => {
     expect(screen.getByRole("heading", { level: 1, name: "Sobre o projeto" })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "bronkxdev@gmail.com" })).toHaveAttribute("href", "mailto:bronkxdev@gmail.com");
     expect(screen.getAllByText(/BronkxDev/).length).toBeGreaterThan(0);
+    expect(screen.getByRole("link", { name: "Ver o código no GitHub" })).toHaveAttribute("href", "https://github.com/Bronkxd/digno-de-pipoca");
     expect(screen.getByText(/ajuda de IA/)).toBeInTheDocument();
   });
 

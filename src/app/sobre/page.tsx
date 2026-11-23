@@ -64,6 +64,16 @@ export default function AboutPage() {
           Code), com testes automáticos. As tecnologias são Next.js, React, TypeScript e Tailwind CSS, e os dados vêm
           do TMDB e do JustWatch.
         </p>
+        <p>
+          <a
+            href="https://github.com/Bronkxd/digno-de-pipoca"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-semibold text-accent-dark underline underline-offset-4"
+          >
+            Ver o código no GitHub
+          </a>
+        </p>
       </section>
 
       <section aria-labelledby="contato" className="max-w-2xl space-y-4 text-lg leading-relaxed">
