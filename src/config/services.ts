@@ -12,7 +12,7 @@ export const COVERED_SERVICES: CoveredService[] = [
   { slug: "max", name: "Max", tmdbProviderIds: [1899] },
   { slug: "globoplay", name: "Globoplay", tmdbProviderIds: [307] },
   { slug: "apple-tv-plus", name: "Apple TV+", tmdbProviderIds: [350] },
-  { slug: "paramount-plus", name: "Paramount+", tmdbProviderIds: [531] },
+  { slug: "paramount-plus", name: "Paramount+", tmdbProviderIds: [531, 2303] },
 ];
 
 export const ALL_COVERED_PROVIDER_IDS: number[] = COVERED_SERVICES.flatMap((s) => s.tmdbProviderIds);

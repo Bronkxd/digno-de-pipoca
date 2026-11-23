@@ -46,5 +46,5 @@ describe("services config", () => {
     expect(getServiceBySlug("netflix")?.name).toBe("Netflix");
     expect(getServiceBySlug("xyz")).toBeUndefined();
   });
-  it("ALL_COVERED_PROVIDER_IDS junta todos os IDs", () => expect(ALL_COVERED_PROVIDER_IDS).toEqual([8, 1796, 119, 2100, 337, 1899, 307, 350, 531]));
+  it("ALL_COVERED_PROVIDER_IDS junta todos os IDs", () => expect(ALL_COVERED_PROVIDER_IDS).toEqual([8, 1796, 119, 2100, 337, 1899, 307, 350, 531, 2303]));
 });
