@@ -10,7 +10,7 @@ export async function GET(request: Request) {
   try {
     const page = await discoverMovies(toDiscoverFilters(q), q.page);
     return Response.json(page, {
-      headers: { "Cache-Control": "s-maxage=21600, stale-while-revalidate=3600" },
+      headers: { "Cache-Control": "s-maxage=3600, stale-while-revalidate=3600" },
     });
   } catch {
     return Response.json({ error: "Não foi possível carregar os filmes." }, { status: 502 });

@@ -29,12 +29,23 @@ export async function tmdbFetch<T>(
   if (!search.has("language")) search.set("language", "pt-BR");
   // Faixa de tempo no endereço: a cada `revalidate` segundos a URL muda e o cache antigo deixa de ser usado.
   // Sem isso, uma página pouco visitada mostraria dados de semanas atrás (o Next serve o velho e atualiza depois).
-  search.set("cb", String(Math.floor(Date.now() / (revalidate * 1000))));
+  const bucket = Math.floor(Date.now() / (revalidate * 1000));
 
-  const res = await fetch(`${BASE_URL}${path}?${search.toString()}`, {
-    headers: { Authorization: `Bearer ${token}`, Accept: "application/json" },
-    next: { revalidate },
-  });
-  if (!res.ok) throw new TmdbError(res.status);
-  return (await res.json()) as T;
+  const request = async (cb: number): Promise<T> => {
+    search.set("cb", String(cb));
+    const res = await fetch(`${BASE_URL}${path}?${search.toString()}`, {
+      headers: { Authorization: `Bearer ${token}`, Accept: "application/json" },
+      next: { revalidate },
+    });
+    if (!res.ok) throw new TmdbError(res.status);
+    return (await res.json()) as T;
+  };
+
+  try {
+    return await request(bucket);
+  } catch (e) {
+    if (e instanceof TmdbError && e.status < 500 && e.status !== 429) throw e;
+    // TMDB fora do ar: o Next ainda pode ter a resposta da faixa anterior no cache.
+    return request(bucket - 1);
+  }
 }

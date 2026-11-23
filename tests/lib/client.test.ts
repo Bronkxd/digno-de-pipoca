@@ -34,6 +34,24 @@ describe("tmdbFetch", () => {
     expect(fetchMock.mock.calls[1][0]).toBe("https://api.themoviedb.org/3/movie/1?language=pt-BR&cb=6");
   });
 
+  it("se o TMDB falhar, usa o conteúdo salvo da faixa anterior", async () => {
+    fetchMock.mockImplementationOnce(async () => new Response("{}", { status: 503 }));
+    expect(await tmdbFetch("/movie/1", {}, REVALIDATE.movie)).toEqual({ ok: true });
+    const cb = fetchMock.mock.calls.map(([u]) => Number(new URL(u).searchParams.get("cb")));
+    expect(cb[1]).toBe(cb[0] - 1);
+  });
+
+  it("queda de rede também usa a faixa anterior", async () => {
+    fetchMock.mockRejectedValueOnce(new Error("rede"));
+    expect(await tmdbFetch("/movie/1", {}, REVALIDATE.movie)).toEqual({ ok: true });
+  });
+
+  it("404 não tenta a faixa anterior", async () => {
+    fetchMock.mockImplementation(async () => new Response("{}", { status: 404 }));
+    await expect(tmdbFetch("/movie/1", {}, 1)).rejects.toMatchObject({ status: 404 });
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
   it("respeita language explícito", async () => {
     await tmdbFetch("/movie/1", { language: "en-US" }, REVALIDATE.movie);
     expect(fetchMock.mock.calls[0][0]).toMatch(/\/movie\/1\?language=en-US&cb=\d+$/);
