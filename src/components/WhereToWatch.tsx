@@ -1,0 +1,53 @@
+import Image from "next/image";
+import { tmdbImage } from "@/lib/format";
+import type { WatchInfo } from "@/lib/tmdb/types";
+
+export function WhereToWatch({ watch }: { watch: WatchInfo }) {
+  if (watch.providers.length === 0) {
+    return (
+      <section aria-labelledby="onde-assistir" className="space-y-2">
+        <h2 id="onde-assistir" className="text-lg font-semibold">Onde assistir</h2>
+        <p className="text-muted">No momento, este filme não está em nenhum streaming por assinatura no Brasil.</p>
+      </section>
+    );
+  }
+
+  const list = (
+    <ul className="flex flex-wrap gap-3">
+      {watch.providers.map((p) => {
+        const logo = tmdbImage(p.logoPath, "w92");
+        return (
+          <li key={p.id} className="flex items-center gap-2 rounded-lg bg-surface py-1.5 pr-3 pl-1.5">
+            {logo ? (
+              <Image src={logo} alt={p.name} width={36} height={36} className="rounded-md" />
+            ) : (
+              <span className="flex h-9 items-center px-1 text-sm font-medium">{p.name}</span>
+            )}
+            {logo && <span className="text-sm">{p.name}</span>}
+            {p.isChannel && <span className="text-xs text-muted">canal pago à parte</span>}
+          </li>
+        );
+      })}
+    </ul>
+  );
+
+  return (
+    <section aria-labelledby="onde-assistir" className="space-y-3">
+      <h2 id="onde-assistir" className="text-lg font-semibold">Onde assistir (assinatura)</h2>
+      {watch.link ? (
+        <a
+          href={watch.link}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Ver opções de onde assistir no TMDB"
+          className="block rounded-lg transition hover:opacity-90"
+        >
+          {list}
+        </a>
+      ) : (
+        list
+      )}
+      <p className="text-xs text-muted">Dados de disponibilidade: JustWatch</p>
+    </section>
+  );
+}
