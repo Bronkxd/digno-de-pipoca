@@ -1,3 +1,4 @@
+import { plainText } from "@/lib/plain-text";
 import { tmdbFetch, TmdbError, REVALIDATE } from "./client";
 import { withPosterOnly } from "./discover";
 import { isAvailableOnCovered, mapWatchProviders } from "./providers";
@@ -20,6 +21,8 @@ const MAX_RECS_CHECKED = 20;
 const MAX_RECS_SHOWN = 12;
 const MAX_REVIEWS = 3;
 const EXCERPT_LENGTH = 400;
+/** Só o começo da resenha interessa; evita processar textos enormes. */
+const MAX_REVIEW_SOURCE = 4000;
 const MAX_CAST = 10;
 
 export function pickTrailer(videos: TmdbVideo[]): string | null {
@@ -47,15 +50,18 @@ export function mapCredits(c: TmdbCredits): { director: string | null; cast: Cas
 }
 
 function excerpt(text: string): string {
-  const clean = text.trim();
+  const clean = plainText(text.slice(0, MAX_REVIEW_SOURCE));
   if (clean.length <= EXCERPT_LENGTH) return clean;
   const cut = clean.slice(0, EXCERPT_LENGTH);
-  const lastSpace = cut.lastIndexOf(" ");
+  const lastSpace = Math.max(cut.lastIndexOf(" "), cut.lastIndexOf("\n"));
   return `${(lastSpace > 0 ? cut.slice(0, lastSpace) : cut).trimEnd()}…`;
 }
 
 export function toReviewExcerpts(reviews: TmdbReview[], language: "pt-BR" | "en"): ReviewExcerpt[] {
-  return reviews.slice(0, MAX_REVIEWS).map((r) => ({ author: r.author, excerpt: excerpt(r.content), url: r.url, language }));
+  return reviews
+    .map((r) => ({ author: r.author, excerpt: excerpt(r.content), url: r.url, language }))
+    .filter((r) => r.excerpt)
+    .slice(0, MAX_REVIEWS);
 }
 
 async function getOverview(id: number, overview: string): Promise<string> {

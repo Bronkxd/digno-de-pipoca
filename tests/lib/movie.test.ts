@@ -63,6 +63,11 @@ describe("toReviewExcerpts", () => {
     expect(r[0].excerpt.endsWith("palavra…")).toBe(true);
     expect(r[0]).toMatchObject({ author: "a0", url: "u0", language: "en" });
   });
+  it("tira a formatação antes de cortar e pula resenha só com marcação", () => {
+    const real = "**Português**\r\n\r\n**_Um choque._**\r\n\r\nTexto";
+    const r = toReviewExcerpts([{ author: "a", content: "**Português**", url: "u1" }, { author: "b", content: real, url: "u2" }], "pt-BR");
+    expect(r).toEqual([{ author: "b", excerpt: "Um choque.\n\nTexto", url: "u2", language: "pt-BR" }]);
+  });
   it("texto curto fica inteiro", () =>
     expect(toReviewExcerpts([{ author: "a", content: "Ótimo.", url: "u" }], "pt-BR")[0].excerpt).toBe("Ótimo."));
 });

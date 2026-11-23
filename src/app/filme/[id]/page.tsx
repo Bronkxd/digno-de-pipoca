@@ -122,7 +122,7 @@ export default async function MoviePage({ params }: PageProps<"/filme/[id]">) {
                     <span className="rounded bg-candy px-1.5 py-0.5 text-xs text-muted">em inglês</span>
                   )}
                 </p>
-                <p className="leading-relaxed text-muted">{r.excerpt}</p>
+                <p className="leading-relaxed wrap-anywhere whitespace-pre-line text-muted">{r.excerpt}</p>
                 <a href={r.url} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">
                   Ler resenha completa
                 </a>
