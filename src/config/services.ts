@@ -9,9 +9,9 @@ export const COVERED_SERVICES: CoveredService[] = [
   { slug: "netflix", name: "Netflix", inName: "na Netflix", tmdbProviderIds: [8, 1796] },
   { slug: "prime-video", name: "Prime Video", inName: "no Prime Video", tmdbProviderIds: [119, 2100] },
   { slug: "disney-plus", name: "Disney+", inName: "no Disney+", tmdbProviderIds: [337] },
-  { slug: "max", name: "Max", inName: "na Max", tmdbProviderIds: [1899] },
+  { slug: "max", name: "HBO Max", inName: "na HBO Max", tmdbProviderIds: [1899] },
   { slug: "globoplay", name: "Globoplay", inName: "no Globoplay", tmdbProviderIds: [307] },
-  { slug: "apple-tv-plus", name: "Apple TV+", inName: "no Apple TV+", tmdbProviderIds: [350] },
+  { slug: "apple-tv-plus", name: "Apple TV", inName: "no Apple TV", tmdbProviderIds: [350] },
   { slug: "paramount-plus", name: "Paramount+", inName: "no Paramount+", tmdbProviderIds: [531, 2303] },
 ];
 

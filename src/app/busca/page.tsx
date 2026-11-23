@@ -29,7 +29,16 @@ export default async function SearchPage({ searchParams }: PageProps<"/busca">) 
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-bold">Resultados para &ldquo;{q}&rdquo;</h1>
-      {result.results.length === 0 ? (
+      {result.totalPages > 0 && page > result.totalPages ? (
+        <div className="space-y-2 py-10 text-center">
+          <p className="text-muted">
+            {`Esta página não existe. A busca tem ${result.totalPages} ${result.totalPages === 1 ? "página" : "páginas"}.`}
+          </p>
+          <Link href={pageHref(result.totalPages)} className="text-accent hover:underline">
+            Ir para a última página
+          </Link>
+        </div>
+      ) : result.results.length === 0 ? (
         <p className="py-10 text-center text-muted">Nenhum filme encontrado para &quot;{q}&quot;.</p>
       ) : (
         <>

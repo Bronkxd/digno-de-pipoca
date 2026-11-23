@@ -28,8 +28,8 @@ describe("getHomeLists", () => {
   it("títulos e links", () => {
     expect(ls[3]).toMatchObject({ title: "Destaques na Netflix", href: "/servico/netflix" });
     expect(ls.slice(3, 10).map((l) => l.title)).toEqual([
-      "Destaques na Netflix", "Destaques no Prime Video", "Destaques no Disney+", "Destaques na Max",
-      "Destaques no Globoplay", "Destaques no Apple TV+", "Destaques no Paramount+",
+      "Destaques na Netflix", "Destaques no Prime Video", "Destaques no Disney+", "Destaques na HBO Max",
+      "Destaques no Globoplay", "Destaques no Apple TV", "Destaques no Paramount+",
     ]);
     expect(ls[0].href).toBe("/explorar?de=2025&ordem=lancamento");
     expect(ls[2].href).toBe("/explorar?nota=7.5&ordem=nota");

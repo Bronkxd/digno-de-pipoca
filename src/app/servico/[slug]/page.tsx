@@ -26,10 +26,11 @@ export default async function ServicePage({ params }: PageProps<"/servico/[slug]
 
   const lists = getServiceLists(service, new Date());
   const q = parseExploreParams({ servico: service.slug });
-  const [rows, grid] = await Promise.all([
+  const [rows, [grid]] = await Promise.all([
     Promise.allSettled(lists.map((l) => discoverMovies(l.filters, 1))),
-    discoverMovies(toDiscoverFilters(q), 1),
+    Promise.allSettled([discoverMovies(toDiscoverFilters(q), 1)]),
   ]);
+  if (grid.status === "rejected" && rows.every((r) => r.status === "rejected")) throw grid.reason;
 
   return (
     <div className="space-y-10">
@@ -42,7 +43,11 @@ export default async function ServicePage({ params }: PageProps<"/servico/[slug]
       })}
       <section aria-labelledby="todos" className="space-y-4">
         <h2 id="todos" className="text-lg font-semibold sm:text-xl">Todos os filmes {service.inName}</h2>
-        <LoadMoreGrid initial={grid} searchString={toSearchString(q)} />
+        {grid.status === "fulfilled" ? (
+          <LoadMoreGrid initial={grid.value} searchString={toSearchString(q)} />
+        ) : (
+          <p className="text-muted">Não foi possível carregar esta lista agora. Tente de novo em alguns minutos.</p>
+        )}
       </section>
     </div>
   );
