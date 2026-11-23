@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Digno de Pipoca
 
-## Getting Started
+Catálogo que responde "o que vale a pena assistir hoje?" com os filmes incluídos na assinatura dos principais streamings do Brasil.
 
-First, run the development server:
+**No ar:** https://digno-de-pipoca.vercel.app
+
+![Página inicial do Digno de Pipoca](docs/inicio.png)
+
+## O que faz
+
+- Sugere um filme em destaque, com um saquinho de pipoca que enche conforme a nota.
+- Monta listas automáticas: lançamentos, em alta, mais bem avaliados, por streaming e por gênero.
+- Mostra em cada filme a nota, o número de votos, o trailer, o elenco, as resenhas e onde assistir.
+- Permite explorar com filtros que ficam no endereço e podem ser compartilhados.
+- Gera uma imagem de compartilhamento para cada filme.
+
+## Decisões do projeto
+
+| Problema | Solução |
+|---|---|
+| Aluguel e compra confundem quem quer saber o que já pode assistir | Só entram filmes incluídos na assinatura; canais vendidos à parte são marcados |
+| Listas de "melhores" cheias de filmes com 1 voto | Toda ordenação por nota exige um mínimo de votos |
+| Disponibilidade desatualizada | O endereço de cada consulta muda a cada período de cache, então páginas pouco visitadas não mostram dados de semanas atrás |
+| TMDB fora do ar | O site tenta a resposta guardada do período anterior e tolera falhas parciais |
+| Imagens pesadas no celular | Um carregador próprio escolhe entre os tamanhos do TMDB; o player do YouTube só carrega no clique |
+| Chave da API | Fica só no servidor |
+
+O design completo está em [docs/superpowers/specs](docs/superpowers/specs).
+
+## Tecnologias
+
+Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS 4, Vitest e Testing Library. Hospedado na Vercel.
+
+## Como rodar
+
+Requer Node 24 ou mais novo e um [API Read Access Token do TMDB](https://www.themoviedb.org/settings/api).
 
 ```bash
+npm install
+cp .env.local.example .env.local   # cole o token em TMDB_READ_TOKEN
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+| Comando | O que faz |
+|---|---|
+| `npm test` | Roda os testes (não precisa de token) |
+| `npm run lint` | Verifica o código |
+| `npm run build` | Compila para produção (não precisa de token) |
+| `node scripts/list-providers.mjs` | Lista os códigos dos streamings no Brasil |
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Como foi feito
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Projeto desenvolvido com ajuda de IA (Claude Code).
 
-## Learn More
+## Créditos
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This product uses the TMDB API but is not endorsed or certified by TMDB. Dados de disponibilidade: JustWatch. Fonte Titan One, licença [OFL](src/assets/TitanOne-OFL.txt). Uso não comercial.

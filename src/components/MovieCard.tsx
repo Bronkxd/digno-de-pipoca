@@ -16,7 +16,7 @@ export function MovieCard({ movie }: { movie: MovieSummary }) {
             src={poster}
             alt={`Pôster de ${movie.title}`}
             fill
-            sizes="(max-width: 640px) 40vw, 180px"
+            sizes="(max-width: 640px) 45vw, 210px"
             className="object-cover"
           />
         ) : (

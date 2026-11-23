@@ -16,6 +16,9 @@ const titan = Titan_One({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://digno-de-pipoca.vercel.app"),
+  openGraph: { siteName: "Digno de Pipoca", locale: "pt_BR", type: "website" },
+  twitter: { card: "summary_large_image" },
   title: {
     default: "Digno de Pipoca · Filmes nos streamings",
     template: "%s · Digno de Pipoca",

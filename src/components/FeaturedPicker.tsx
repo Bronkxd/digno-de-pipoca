@@ -1,11 +1,13 @@
 "use client";
 
-import Image from "next/image";
+import Image, { getImageProps } from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { formatRating, tmdbImage } from "@/lib/format";
 import type { MovieSummary } from "@/lib/tmdb/types";
 import { Kernel, PopcornBag } from "./PopcornBag";
+
+const POSTER_SIZES = "(max-width: 639px) 169px, (max-width: 1023px) 211px, 253px";
 
 const BURST = Array.from({ length: 16 }, (_, i) => {
   const angle = Math.PI * (1.08 + (0.84 * i) / 15);
@@ -21,7 +23,11 @@ export function FeaturedPicker({ movies }: { movies: MovieSummary[] }) {
   const nextPoster = tmdbImage(next.posterPath, "w500");
 
   useEffect(() => {
-    if (nextPoster) new window.Image().src = nextPoster;
+    if (!nextPoster) return;
+    const { props } = getImageProps({ src: nextPoster, alt: "", fill: true, sizes: POSTER_SIZES });
+    const img = new window.Image();
+    img.sizes = POSTER_SIZES;
+    img.srcset = props.srcSet ?? "";
   }, [nextPoster]);
 
   const poster = tmdbImage(movie.posterPath, "w500");
@@ -36,7 +42,7 @@ export function FeaturedPicker({ movies }: { movies: MovieSummary[] }) {
           <div key={`poster-${turn}`} className="sobe relative mx-auto -mb-[46%] w-[66%]">
             {poster && (
               <div className="relative aspect-[2/3] overflow-hidden rounded-lg">
-                <Image src={poster} alt={`Pôster de ${movie.title}`} fill priority sizes="256px" className="object-cover" />
+                <Image src={poster} alt={`Pôster de ${movie.title}`} fill preload sizes={POSTER_SIZES} className="object-cover" />
               </div>
             )}
           </div>

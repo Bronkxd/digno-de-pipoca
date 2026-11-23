@@ -7,6 +7,7 @@ import { formatRuntime, tmdbImage } from "@/lib/format";
 import { RatingBadge } from "@/components/RatingBadge";
 import { PopcornBag } from "@/components/PopcornBag";
 import { PosterRow } from "@/components/PosterRow";
+import { Trailer } from "@/components/Trailer";
 import { WhereToWatch } from "@/components/WhereToWatch";
 
 const loadMovie = cache(async (rawId: string) => {
@@ -37,12 +38,12 @@ export default async function MoviePage({ params }: PageProps<"/filme/[id]">) {
     <article className="space-y-10">
       <header className="noite faixa relative isolate -mt-6 overflow-hidden bg-foreground py-10 text-white">
         {backdrop && (
-          <Image src={backdrop} alt="" fill priority sizes="100vw" className="-z-10 object-cover opacity-25" />
+          <Image src={backdrop} alt="" fill preload sizes="100vw" className="-z-10 object-cover opacity-25" />
         )}
         <div className="flex flex-col gap-8 sm:flex-row sm:items-end">
           {poster && (
             <div className="relative aspect-[2/3] w-40 shrink-0 overflow-hidden rounded-lg sm:w-56">
-              <Image src={poster} alt={`Pôster de ${movie.title}`} fill sizes="224px" className="object-cover" />
+              <Image src={poster} alt={`Pôster de ${movie.title}`} fill loading="eager" sizes="(max-width: 639px) 160px, 224px" className="object-cover" />
             </div>
           )}
           <div className="min-w-0 flex-1 space-y-4">
@@ -77,16 +78,7 @@ export default async function MoviePage({ params }: PageProps<"/filme/[id]">) {
       {movie.trailerKey && (
         <section aria-labelledby="trailer" className="space-y-3">
           <h2 id="trailer" className="text-2xl sm:text-3xl">Trailer</h2>
-          <div className="aspect-video w-full max-w-3xl overflow-hidden rounded-xl bg-surface">
-            <iframe
-              src={`https://www.youtube-nocookie.com/embed/${movie.trailerKey}`}
-              title={`Trailer de ${movie.title}`}
-              className="h-full w-full"
-              loading="lazy"
-              allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
-          </div>
+          <Trailer trailerKey={movie.trailerKey} title={movie.title} backdrop={backdrop} />
         </section>
       )}
 
