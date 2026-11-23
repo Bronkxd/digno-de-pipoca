@@ -60,8 +60,12 @@ export function toReviewExcerpts(reviews: TmdbReview[], language: "pt-BR" | "en"
 
 async function getOverview(id: number, overview: string): Promise<string> {
   if (overview.trim()) return overview;
-  const en = await tmdbFetch<TmdbMovieDetailsResponse>(`/movie/${id}`, { language: "en-US" }, REVALIDATE.movie);
-  return en.overview?.trim() ? en.overview : NO_OVERVIEW;
+  try {
+    const en = await tmdbFetch<TmdbMovieDetailsResponse>(`/movie/${id}`, { language: "en-US" }, REVALIDATE.movie);
+    return en.overview?.trim() ? en.overview : NO_OVERVIEW;
+  } catch {
+    return NO_OVERVIEW;
+  }
 }
 
 async function getReviews(id: number): Promise<ReviewExcerpt[]> {

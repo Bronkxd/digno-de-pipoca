@@ -27,6 +27,9 @@ export async function tmdbFetch<T>(
     if (value !== undefined) search.set(key, String(value));
   }
   if (!search.has("language")) search.set("language", "pt-BR");
+  // Faixa de tempo no endereço: a cada `revalidate` segundos a URL muda e o cache antigo deixa de ser usado.
+  // Sem isso, uma página pouco visitada mostraria dados de semanas atrás (o Next serve o velho e atualiza depois).
+  search.set("cb", String(Math.floor(Date.now() / (revalidate * 1000))));
 
   const res = await fetch(`${BASE_URL}${path}?${search.toString()}`, {
     headers: { Authorization: `Bearer ${token}`, Accept: "application/json" },

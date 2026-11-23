@@ -4,7 +4,9 @@ const nextConfig: NextConfig = {
   // Modelo de cache clássico (fetch + next.revalidate), conforme o plano.
   cacheComponents: false,
   images: {
-    remotePatterns: [new URL("https://image.tmdb.org/t/p/**")],
+    // As imagens já vêm no tamanho certo do CDN do TMDB (tmdbImage); sem otimizador da Vercel,
+    // que tem cota mensal no plano gratuito.
+    unoptimized: true,
   },
   turbopack: {
     rules: {

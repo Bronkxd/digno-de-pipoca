@@ -31,6 +31,12 @@ describe("WhereToWatch", () => {
     expect(screen.getByRole("link", { name: /onde assistir/i })).toHaveAttribute("href", watch.link);
   });
 
+  it("leitor de tela ouve os nomes dos serviços (link não esconde a lista)", () => {
+    render(<WhereToWatch watch={watch} />);
+    expect(screen.getByRole("list")).toBeInTheDocument();
+    expect(screen.getByRole("list").closest("a")).toBeNull();
+  });
+
   it("sem link não cria âncora", () => {
     render(<WhereToWatch watch={{ ...watch, link: null }} />);
     expect(screen.queryByRole("link")).not.toBeInTheDocument();

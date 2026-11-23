@@ -129,6 +129,13 @@ describe("getMovie", () => {
     expect((await getMovie(603))!.overview).toBe("Sinopse indisponível.");
   });
 
+  it("falha na sinopse em inglês não derruba a página", async () => {
+    route((path, params) =>
+      path.endsWith("/reviews") ? noReviews : params.language === "en-US" ? new TmdbError(429) : base({ overview: "" }),
+    );
+    expect((await getMovie(603))!.overview).toBe("Sinopse indisponível.");
+  });
+
   it("404 devolve null", async () => {
     route(() => new TmdbError(404));
     expect(await getMovie(999999999)).toBeNull();

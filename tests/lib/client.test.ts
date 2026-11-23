@@ -5,7 +5,7 @@ const fetchMock = vi.fn();
 
 beforeEach(() => {
   fetchMock.mockReset();
-  fetchMock.mockResolvedValue(new Response(JSON.stringify({ ok: true }), { status: 200 }));
+  fetchMock.mockImplementation(async () => new Response(JSON.stringify({ ok: true }), { status: 200 }));
   vi.stubGlobal("fetch", fetchMock);
   vi.stubEnv("TMDB_READ_TOKEN", "tok");
 });
@@ -18,14 +18,25 @@ describe("tmdbFetch", () => {
   it("monta URL com pt-BR, sem parâmetros undefined, com token e revalidate", async () => {
     await tmdbFetch("/discover/movie", { page: 2, with_genres: undefined }, REVALIDATE.lists);
     const [url, init] = fetchMock.mock.calls[0];
-    expect(url).toBe("https://api.themoviedb.org/3/discover/movie?page=2&language=pt-BR");
+    expect(url).toMatch(/^https:\/\/api\.themoviedb\.org\/3\/discover\/movie\?page=2&language=pt-BR&cb=\d+$/);
     expect(init.headers.Authorization).toBe("Bearer tok");
     expect(init.next).toEqual({ revalidate: 21600 });
   });
 
+  it("inclui faixa de tempo do cache na URL para não servir dados mais velhos que o revalidate", async () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date(43200 * 1000 * 5 + 1000));
+    await tmdbFetch("/movie/1", {}, REVALIDATE.movie);
+    vi.setSystemTime(new Date(43200 * 1000 * 6 + 1000));
+    await tmdbFetch("/movie/1", {}, REVALIDATE.movie);
+    vi.useRealTimers();
+    expect(fetchMock.mock.calls[0][0]).toBe("https://api.themoviedb.org/3/movie/1?language=pt-BR&cb=5");
+    expect(fetchMock.mock.calls[1][0]).toBe("https://api.themoviedb.org/3/movie/1?language=pt-BR&cb=6");
+  });
+
   it("respeita language explícito", async () => {
     await tmdbFetch("/movie/1", { language: "en-US" }, REVALIDATE.movie);
-    expect(fetchMock.mock.calls[0][0]).toBe("https://api.themoviedb.org/3/movie/1?language=en-US");
+    expect(fetchMock.mock.calls[0][0]).toMatch(/\/movie\/1\?language=en-US&cb=\d+$/);
   });
 
   it("devolve o JSON", async () => expect(await tmdbFetch("/x", {}, 1)).toEqual({ ok: true }));

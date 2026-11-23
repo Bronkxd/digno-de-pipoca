@@ -3,6 +3,10 @@ import type { DiscoverFilters, DiscoverPage, MovieSummary, TmdbMovieListItem, Tm
 
 /** Ordenar por nota sem mínimo de votos enche a lista de filmes com 1 voto. */
 export const MIN_VOTES_FOR_RATING_SORT = 200;
+/** Ordenar por lançamento sem mínimo traz filmes obscuros sem nenhum voto. */
+export const MIN_VOTES_FOR_RELEASE_SORT = 20;
+/** Filtro de nota sem mínimo deixa passar filmes com 1 voto nota 10. */
+export const MIN_VOTES_WITH_RATING_FILTER = 50;
 /** Teto da API do TMDB para /discover. */
 export const MAX_PAGES = 500;
 
@@ -24,9 +28,12 @@ export function buildDiscoverParams(f: DiscoverFilters, today: Date): Record<str
   if (f.releasedFrom) params["primary_release_date.gte"] = f.releasedFrom;
   if (f.minRating !== undefined) params["vote_average.gte"] = String(f.minRating);
 
-  const minVotes =
-    f.sortBy === "vote_average.desc" ? Math.max(f.minVotes ?? 0, MIN_VOTES_FOR_RATING_SORT) : f.minVotes;
-  if (minVotes !== undefined) params["vote_count.gte"] = String(minVotes);
+  const floors = [f.minVotes ?? 0];
+  if (f.sortBy === "vote_average.desc") floors.push(MIN_VOTES_FOR_RATING_SORT);
+  if (f.sortBy === "primary_release_date.desc") floors.push(MIN_VOTES_FOR_RELEASE_SORT);
+  if (f.minRating !== undefined) floors.push(MIN_VOTES_WITH_RATING_FILTER);
+  const minVotes = Math.max(...floors);
+  if (minVotes > 0) params["vote_count.gte"] = String(minVotes);
 
   return params;
 }

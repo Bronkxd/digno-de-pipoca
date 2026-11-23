@@ -54,6 +54,15 @@ describe("buildDiscoverParams", () => {
     expect(buildDiscoverParams({ providerIds: [8], releasedTo: "2030-12-31", sortBy: "popularity.desc" }, today)["primary_release_date.lte"]).toBe("2026-11-23"));
 });
 
+describe("mínimo de votos fora da ordenação por nota", () => {
+  it("ordenar por lançamento exige 20 votos", () =>
+    expect(buildDiscoverParams({ providerIds: [8], sortBy: "primary_release_date.desc" }, today)["vote_count.gte"]).toBe("20"));
+  it("nota mínima exige 50 votos em qualquer ordem", () =>
+    expect(buildDiscoverParams({ providerIds: [8], minRating: 8, sortBy: "popularity.desc" }, today)["vote_count.gte"]).toBe("50"));
+  it("mínimo explícito maior prevalece", () =>
+    expect(buildDiscoverParams({ providerIds: [8], minRating: 7.5, minVotes: 1000, sortBy: "popularity.desc" }, today)["vote_count.gte"]).toBe("1000"));
+});
+
 describe("withPosterOnly", () => {
   it("descarta sem pôster e converte", () =>
     expect(withPosterOnly([item(1, "/a.jpg"), item(2, null)])).toEqual([

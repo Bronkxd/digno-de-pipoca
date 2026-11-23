@@ -34,20 +34,15 @@ export function WhereToWatch({ watch }: { watch: WatchInfo }) {
   return (
     <section aria-labelledby="onde-assistir" className="space-y-3">
       <h2 id="onde-assistir" className="text-lg font-semibold">Onde assistir (assinatura)</h2>
-      {watch.link ? (
-        <a
-          href={watch.link}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Ver opções de onde assistir no TMDB"
-          className="block rounded-lg transition hover:opacity-90"
-        >
-          {list}
-        </a>
-      ) : (
-        list
-      )}
-      <p className="text-xs text-muted">Dados de disponibilidade: JustWatch</p>
+      {list}
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted">
+        {watch.link && (
+          <a href={watch.link} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">
+            Ver onde assistir no TMDB →
+          </a>
+        )}
+        <p>Dados de disponibilidade: JustWatch</p>
+      </div>
     </section>
   );
 }
