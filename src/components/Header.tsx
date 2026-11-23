@@ -6,7 +6,7 @@ export function Header() {
     <header className="sticky top-0 z-20 border-b border-white/10 bg-background/90 backdrop-blur">
       <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-6 gap-y-3 px-4 py-3">
         <Link href="/" className="text-lg font-bold tracking-tight">
-          Vale a Pena<span className="text-accent">?</span>
+          Digno de <span className="text-accent">Pipoca</span>
         </Link>
         <form action="/busca" method="get" role="search" className="order-last w-full sm:order-none sm:ml-auto sm:w-72">
           <label htmlFor="busca" className="sr-only">

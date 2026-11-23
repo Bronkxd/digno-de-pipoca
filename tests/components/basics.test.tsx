@@ -64,7 +64,7 @@ describe("Header", () => {
     const input = screen.getByRole("searchbox");
     expect(input).toHaveAttribute("name", "q");
     expect(input.closest("form")).toHaveAttribute("action", "/busca");
-    expect(screen.getByRole("link", { name: "Vale a Pena?" })).toHaveAttribute("href", "/");
+    expect(screen.getByRole("link", { name: "Digno de Pipoca" })).toHaveAttribute("href", "/");
     expect(screen.getByRole("link", { name: "Explorar" })).toHaveAttribute("href", "/explorar");
     expect(screen.getByRole("link", { name: "Netflix" })).toHaveAttribute("href", "/servico/netflix");
   });

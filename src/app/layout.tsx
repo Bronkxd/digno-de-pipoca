@@ -16,8 +16,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Vale a Pena? · Filmes nos streamings",
-    template: "%s · Vale a Pena?",
+    default: "Digno de Pipoca · Filmes nos streamings",
+    template: "%s · Digno de Pipoca",
   },
   description:
     "Descubra o que vale a pena assistir nos streamings do Brasil: lançamentos, mais bem avaliados e onde assistir cada filme.",
