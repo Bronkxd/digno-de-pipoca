@@ -5,6 +5,7 @@ import { cache } from "react";
 import { getMovie } from "@/lib/tmdb/movie";
 import { formatRuntime, tmdbImage } from "@/lib/format";
 import { RatingBadge } from "@/components/RatingBadge";
+import { PopcornBag } from "@/components/PopcornBag";
 import { PosterRow } from "@/components/PosterRow";
 import { WhereToWatch } from "@/components/WhereToWatch";
 
@@ -34,35 +35,40 @@ export default async function MoviePage({ params }: PageProps<"/filme/[id]">) {
 
   return (
     <article className="space-y-10">
-      <header className="relative -mx-4 -mt-6 overflow-hidden px-4 pt-6 pb-2 sm:rounded-b-2xl">
+      <header className="noite faixa relative isolate -mt-6 overflow-hidden bg-foreground py-10 text-white">
         {backdrop && (
           <Image src={backdrop} alt="" fill priority sizes="100vw" className="-z-10 object-cover opacity-25" />
         )}
-        <div className="absolute inset-0 -z-10 bg-gradient-to-t from-background via-background/70 to-transparent" />
-        <div className="flex flex-col gap-6 sm:flex-row">
+        <div className="flex flex-col gap-8 sm:flex-row sm:items-end">
           {poster && (
-            <div className="relative aspect-[2/3] w-40 shrink-0 overflow-hidden rounded-xl shadow-2xl sm:w-56">
+            <div className="relative aspect-[2/3] w-40 shrink-0 overflow-hidden rounded-lg sm:w-56">
               <Image src={poster} alt={`Pôster de ${movie.title}`} fill sizes="224px" className="object-cover" />
             </div>
           )}
-          <div className="space-y-3 sm:self-end">
-            <h1 className="text-3xl font-bold sm:text-4xl">
-              {movie.title} {movie.year && <span className="font-normal text-muted">({movie.year})</span>}
+          <div className="min-w-0 flex-1 space-y-4">
+            <h1 className="text-4xl sm:text-5xl">
+              {movie.title} {movie.year && <span className="whitespace-nowrap">({movie.year})</span>}
             </h1>
             <div className="text-base">
-              <RatingBadge voteAverage={movie.voteAverage} voteCount={movie.voteCount} />
+              <RatingBadge voteAverage={movie.voteAverage} voteCount={movie.voteCount} className="text-white" />
             </div>
-            <ul className="flex flex-wrap items-center gap-2 text-sm text-muted">
+            <ul className="flex flex-wrap items-center gap-3">
               {movie.certification && (
-                <li className="rounded border border-white/30 px-1.5 py-0.5 text-xs font-semibold text-foreground">
+                <li className="rounded border border-white/70 px-1.5 py-0.5 text-xs font-semibold">
                   {movie.certification}
                 </li>
               )}
               {runtime && <li>{runtime}</li>}
               {movie.genres.length > 0 && <li>{movie.genres.join(", ")}</li>}
             </ul>
-            <p className="max-w-3xl leading-relaxed">{movie.overview}</p>
+            <p className="max-w-2xl text-lg leading-relaxed">{movie.overview}</p>
           </div>
+          <PopcornBag
+            size="big"
+            voteAverage={movie.voteAverage}
+            voteCount={movie.voteCount}
+            className="hidden w-52 shrink-0 lg:block"
+          />
         </div>
       </header>
 
@@ -70,7 +76,7 @@ export default async function MoviePage({ params }: PageProps<"/filme/[id]">) {
 
       {movie.trailerKey && (
         <section aria-labelledby="trailer" className="space-y-3">
-          <h2 id="trailer" className="text-lg font-semibold">Trailer</h2>
+          <h2 id="trailer" className="text-2xl sm:text-3xl">Trailer</h2>
           <div className="aspect-video w-full max-w-3xl overflow-hidden rounded-xl bg-surface">
             <iframe
               src={`https://www.youtube-nocookie.com/embed/${movie.trailerKey}`}
@@ -86,18 +92,25 @@ export default async function MoviePage({ params }: PageProps<"/filme/[id]">) {
 
       {(movie.director || movie.cast.length > 0) && (
         <section aria-labelledby="elenco" className="space-y-3">
-          <h2 id="elenco" className="text-lg font-semibold">Direção e elenco</h2>
+          <h2 id="elenco" className="text-2xl sm:text-3xl">Direção e elenco</h2>
           {movie.director && (
             <p>
               <span className="text-muted">Direção:</span> {movie.director}
             </p>
           )}
           {movie.cast.length > 0 && (
-            <ul className="grid grid-cols-2 gap-x-6 gap-y-1 text-sm sm:grid-cols-3 lg:grid-cols-5">
+            <ul className="grid gap-x-6 gap-y-5 min-[26rem]:grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">
               {movie.cast.map((c) => (
-                <li key={`${c.name}-${c.character}`}>
-                  {c.name}
-                  {c.character && <span className="block text-muted">{c.character}</span>}
+                <li key={`${c.name}-${c.character}`} className="flex items-center gap-3">
+                  <span className="relative size-14 shrink-0 overflow-hidden rounded-full bg-candy">
+                    {c.profilePath && (
+                      <Image src={tmdbImage(c.profilePath, "w185")!} alt="" fill sizes="56px" className="object-cover" />
+                    )}
+                  </span>
+                  <span className="min-w-0 text-sm leading-snug font-semibold">
+                    {c.name}
+                    {c.character && <span className="block font-normal text-muted">{c.character}</span>}
+                  </span>
                 </li>
               ))}
             </ul>
@@ -107,14 +120,14 @@ export default async function MoviePage({ params }: PageProps<"/filme/[id]">) {
 
       {movie.reviews.length > 0 && (
         <section aria-labelledby="resenhas" className="space-y-3">
-          <h2 id="resenhas" className="text-lg font-semibold">Resenhas</h2>
+          <h2 id="resenhas" className="text-2xl sm:text-3xl">Resenhas</h2>
           <ul className="grid gap-4 md:grid-cols-3">
             {movie.reviews.map((r) => (
-              <li key={r.url} className="space-y-2 rounded-xl bg-surface p-4 text-sm">
+              <li key={r.url} className="space-y-2 rounded-xl bg-surface p-5">
                 <p className="flex items-center gap-2 font-medium">
                   {r.author}
                   {r.language === "en" && (
-                    <span className="rounded bg-white/10 px-1.5 py-0.5 text-xs text-muted">em inglês</span>
+                    <span className="rounded bg-candy px-1.5 py-0.5 text-xs text-muted">em inglês</span>
                   )}
                 </p>
                 <p className="leading-relaxed text-muted">{r.excerpt}</p>

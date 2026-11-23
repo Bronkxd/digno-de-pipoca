@@ -1,11 +1,14 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0c0e13;
-  --foreground: #eceef3;
-  --surface: #1a1d26;
-  --muted: #9aa1b2;
-  --accent: #ffb547;
+  --background: #ffffff;
+  --foreground: #1b2350;
+  --surface: #fdeff2;
+  --muted: #565d86;
+  --accent: #c8202f;
+  --accent-dark: #a31623;
+  --butter: #ffd75e;
+  --candy: #f9c9d4;
 }
 
 @theme inline {
@@ -14,15 +17,146 @@
   --color-surface: var(--surface);
   --color-muted: var(--muted);
   --color-accent: var(--accent);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-accent-dark: var(--accent-dark);
+  --color-butter: var(--butter);
+  --color-candy: var(--candy);
+  --font-sans: var(--font-figtree);
+  --font-display: var(--font-titan);
 }
 
 html {
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
+  overflow-x: clip;
+}
+
+@layer base {
+  h1,
+  h2 {
+    font-family: var(--font-titan), sans-serif;
+    font-weight: 400;
+    line-height: 1.1;
+    text-wrap: balance;
+  }
+
+  button:not(:disabled) {
+    cursor: pointer;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--foreground);
+    outline-offset: 3px;
+  }
+
+  header.letreiro :focus-visible,
+  footer :focus-visible,
+  .noite :focus-visible {
+    outline-color: var(--butter);
+  }
+}
+
+@layer components {
+  /* Faixa que ocupa a largura da janela dentro do conteúdo centralizado. */
+  .faixa {
+    margin-inline: calc(50% - 50vw);
+    padding-inline: calc(50vw - 50%);
+  }
+
+  .botao {
+    display: inline-block;
+    border-radius: 999px;
+    padding: 0.7rem 1.5rem;
+    font-weight: 700;
+    background: var(--accent);
+    color: #fff;
+    transition: background-color 150ms, transform 150ms;
+  }
+  .botao:hover:not(:disabled) {
+    background: var(--accent-dark);
+  }
+  .botao:active:not(:disabled) {
+    transform: scale(0.96);
+  }
+  .botao:disabled {
+    opacity: 0.6;
+  }
+  .botao-claro {
+    background: #fff;
+    color: var(--foreground);
+  }
+  .botao-claro:hover:not(:disabled) {
+    background: var(--candy);
+  }
+
+  .trilho {
+    scrollbar-width: none;
+  }
+
+  .pipoca {
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .enche .pipoca {
+    animation: cair 520ms cubic-bezier(0.3, 1.5, 0.6, 1) backwards;
+    animation-delay: calc(var(--i) * 28ms);
+  }
+  .sobe {
+    animation: subir 650ms cubic-bezier(0.2, 1.3, 0.4, 1) backwards;
+  }
+  .sacode {
+    animation: sacudir 500ms ease-in-out;
+    transform-origin: bottom center;
+  }
+  .troca {
+    animation: trocar 350ms ease-out;
+  }
+  .voa {
+    animation: voar 950ms cubic-bezier(0.2, 0.7, 0.5, 1) forwards;
+  }
+  .group:is(:hover, :focus-visible) .pula .pipoca {
+    animation: pular 550ms ease-out;
+    animation-delay: calc(var(--i) * 50ms);
+  }
+}
+
+.voa {
+  opacity: 0;
+}
+
+@keyframes cair {
+  from {
+    opacity: 0;
+    transform: translateY(-120px) rotate(-120deg);
+  }
+}
+@keyframes subir {
+  from {
+    transform: translateY(45%) rotate(-5deg) scale(0.85);
+    opacity: 0;
+  }
+}
+@keyframes sacudir {
+  20%, 60% { transform: rotate(-3deg); }
+  40%, 80% { transform: rotate(3deg); }
+}
+@keyframes trocar {
+  from {
+    opacity: 0;
+    transform: translateX(-16px);
+  }
+}
+@keyframes voar {
+  0% { opacity: 1; transform: scale(0.5); }
+  60% { opacity: 1; }
+  100% { opacity: 0; transform: translate(var(--x), var(--y)) rotate(260deg) scale(1.1); }
+}
+@keyframes pular {
+  40% { transform: translateY(-60px) rotate(25deg); }
 }

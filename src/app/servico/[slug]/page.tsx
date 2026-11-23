@@ -34,7 +34,7 @@ export default async function ServicePage({ params }: PageProps<"/servico/[slug]
 
   return (
     <div className="space-y-10">
-      <h1 className="text-2xl font-bold sm:text-3xl">Filmes {service.inName}</h1>
+      <h1 className="faixa -mt-6 bg-butter py-10 text-4xl sm:text-5xl">Filmes {service.inName}</h1>
       {lists.map((list, i) => {
         const r = rows[i];
         return r.status === "fulfilled" ? (
@@ -42,7 +42,7 @@ export default async function ServicePage({ params }: PageProps<"/servico/[slug]
         ) : null;
       })}
       <section aria-labelledby="todos" className="space-y-4">
-        <h2 id="todos" className="text-lg font-semibold sm:text-xl">Todos os filmes {service.inName}</h2>
+        <h2 id="todos" className="text-2xl sm:text-3xl">Todos os filmes {service.inName}</h2>
         {grid.status === "fulfilled" ? (
           <LoadMoreGrid initial={grid.value} searchString={toSearchString(q)} />
         ) : (

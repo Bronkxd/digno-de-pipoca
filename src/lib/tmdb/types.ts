@@ -5,6 +5,7 @@ export type MovieSummary = {
   title: string;
   posterPath: string | null;
   releaseDate: string | null;
+  overview?: string;
   voteAverage: number;
   voteCount: number;
 };
@@ -64,6 +65,7 @@ export type TmdbMovieListItem = {
   title: string;
   poster_path: string | null;
   release_date?: string;
+  overview?: string;
   vote_average: number;
   vote_count: number;
 };

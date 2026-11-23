@@ -17,7 +17,7 @@ export default async function SearchPage({ searchParams }: PageProps<"/busca">) 
   if (!q) {
     return (
       <div className="space-y-4 py-10 text-center">
-        <h1 className="text-2xl font-bold">Buscar filmes</h1>
+        <h1 className="text-4xl">Buscar filmes</h1>
         <p className="text-muted">Digite o nome de um filme para buscar.</p>
       </div>
     );
@@ -28,7 +28,7 @@ export default async function SearchPage({ searchParams }: PageProps<"/busca">) 
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">Resultados para &ldquo;{q}&rdquo;</h1>
+      <h1 className="text-4xl">Resultados para &ldquo;{q}&rdquo;</h1>
       {result.totalPages > 0 && page > result.totalPages ? (
         <div className="space-y-2 py-10 text-center">
           <p className="text-muted">
@@ -42,7 +42,7 @@ export default async function SearchPage({ searchParams }: PageProps<"/busca">) 
         <p className="py-10 text-center text-muted">Nenhum filme encontrado para &quot;{q}&quot;.</p>
       ) : (
         <>
-          <ul className="grid grid-cols-2 gap-x-3 gap-y-6 sm:grid-cols-4 lg:grid-cols-6">
+          <ul className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-4 lg:grid-cols-5">
             {result.results.map((m) => (
               <li key={m.id}>
                 <MovieCard movie={m} />
@@ -53,7 +53,7 @@ export default async function SearchPage({ searchParams }: PageProps<"/busca">) 
             <nav aria-label="Páginas" className="flex items-center justify-center gap-4 text-sm">
               {result.page > 1 && (
                 <Link href={pageHref(result.page - 1)} className="text-accent hover:underline">
-                  ← Anterior
+                  Anterior
                 </Link>
               )}
               <span className="text-muted">
@@ -61,7 +61,7 @@ export default async function SearchPage({ searchParams }: PageProps<"/busca">) 
               </span>
               {result.page < result.totalPages && (
                 <Link href={pageHref(result.page + 1)} className="text-accent hover:underline">
-                  Próxima →
+                  Próxima
                 </Link>
               )}
             </nav>

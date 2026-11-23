@@ -2,7 +2,7 @@ import { COVERED_SERVICES } from "@/config/services";
 import type { ExploreQuery } from "@/lib/explore-params";
 import type { Genre } from "@/lib/tmdb/genres";
 
-const field = "w-full rounded-lg bg-surface px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent";
+const field = "w-full rounded-lg border-2 border-foreground/50 bg-white px-3 py-2";
 
 /** Formulário GET: funciona sem JavaScript e deixa os filtros na URL. */
 export function ExploreFilters({ q, genres, action = "/explorar", showServices = true }: {
@@ -12,13 +12,13 @@ export function ExploreFilters({ q, genres, action = "/explorar", showServices =
   showServices?: boolean;
 }) {
   return (
-    <form action={action} method="get" className="space-y-4 rounded-xl border border-white/10 p-4">
+    <form action={action} method="get" className="space-y-4 rounded-2xl bg-candy p-5">
       {showServices && (
         <fieldset>
           <legend className="mb-2 text-sm font-medium">Serviços</legend>
           <div className="flex flex-wrap gap-2">
             {COVERED_SERVICES.map((s) => (
-              <label key={s.slug} className="flex cursor-pointer items-center gap-2 rounded-full bg-surface px-3 py-1.5 text-sm has-[:checked]:bg-accent has-[:checked]:text-background">
+              <label key={s.slug} className="flex cursor-pointer items-center gap-2 rounded-full bg-white px-4 py-2 font-medium transition hover:bg-butter has-[:checked]:bg-accent has-[:checked]:text-white has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-foreground">
                 <input type="checkbox" name="servico" value={s.slug} defaultChecked={q.services.includes(s.slug)} className="sr-only" />
                 {s.name}
               </label>
@@ -62,7 +62,7 @@ export function ExploreFilters({ q, genres, action = "/explorar", showServices =
           </select>
         </label>
       </div>
-      <button type="submit" className="rounded-full bg-accent px-5 py-2 text-sm font-medium text-background hover:brightness-110">
+      <button type="submit" className="botao">
         Aplicar filtros
       </button>
     </form>

@@ -1,12 +1,14 @@
 import Link from "next/link";
+import { PopcornBag } from "./PopcornBag";
 import { COVERED_SERVICES } from "@/config/services";
 
 export function Header() {
   return (
-    <header className="sticky top-0 z-20 border-b border-white/10 bg-background/90 backdrop-blur">
+    <header className="letreiro z-20 bg-accent text-white sm:sticky sm:top-0">
       <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-6 gap-y-3 px-4 py-3">
-        <Link href="/" className="text-lg font-bold tracking-tight">
-          Digno de <span className="text-accent">Pipoca</span>
+        <Link href="/" className="flex items-end gap-2 font-display text-2xl">
+          <PopcornBag voteAverage={10} voteCount={1} className="w-8" />
+          Digno de Pipoca
         </Link>
         <form action="/busca" method="get" role="search" className="order-last w-full sm:order-none sm:ml-auto sm:w-72">
           <label htmlFor="busca" className="sr-only">
@@ -17,18 +19,18 @@ export function Header() {
             type="search"
             name="q"
             placeholder="Buscar filme…"
-            className="w-full rounded-full bg-surface px-4 py-2 text-sm placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-accent"
+            className="w-full rounded-full bg-white px-4 py-2 text-foreground placeholder:text-muted"
           />
         </form>
-        <Link href="/explorar" className="text-sm hover:text-accent">
+        <Link href="/explorar" className="ml-auto font-semibold underline-offset-4 hover:underline sm:ml-0">
           Explorar
         </Link>
       </div>
-      <nav aria-label="Serviços" className="mx-auto max-w-6xl overflow-x-auto px-4 pb-2">
-        <ul className="flex gap-4 text-sm whitespace-nowrap text-muted">
+      <nav aria-label="Serviços" className="mx-auto max-w-6xl trilho overflow-x-auto px-4 pb-2">
+        <ul className="flex gap-5 py-1 font-medium whitespace-nowrap">
           {COVERED_SERVICES.map((s) => (
             <li key={s.slug}>
-              <Link href={`/servico/${s.slug}`} className="hover:text-foreground">
+              <Link href={`/servico/${s.slug}`} className="underline-offset-4 hover:underline">
                 {s.name}
               </Link>
             </li>

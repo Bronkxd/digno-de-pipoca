@@ -14,7 +14,7 @@ export default async function ExplorePage({ searchParams }: PageProps<"/explorar
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">Explorar filmes</h1>
+      <h1 className="text-4xl">Explorar filmes</h1>
       <ExploreFilters q={q} genres={genres} />
       <LoadMoreGrid key={searchString} initial={initial} searchString={searchString} />
     </div>

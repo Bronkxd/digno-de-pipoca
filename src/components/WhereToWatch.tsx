@@ -6,7 +6,7 @@ export function WhereToWatch({ watch }: { watch: WatchInfo }) {
   if (watch.providers.length === 0) {
     return (
       <section aria-labelledby="onde-assistir" className="space-y-2">
-        <h2 id="onde-assistir" className="text-lg font-semibold">Onde assistir</h2>
+        <h2 id="onde-assistir" className="text-2xl">Onde assistir</h2>
         <p className="text-muted">No momento, este filme não está em nenhum streaming por assinatura no Brasil.</p>
       </section>
     );
@@ -17,7 +17,7 @@ export function WhereToWatch({ watch }: { watch: WatchInfo }) {
       {watch.providers.map((p) => {
         const logo = tmdbImage(p.logoPath, "w92");
         return (
-          <li key={p.id} className="flex items-center gap-2 rounded-lg bg-surface py-1.5 pr-3 pl-1.5">
+          <li key={p.id} className="flex items-center gap-2 rounded-xl bg-surface py-1.5 pr-3 pl-1.5">
             {logo ? (
               <Image src={logo} alt={p.name} width={36} height={36} className="rounded-md" />
             ) : (
@@ -33,12 +33,12 @@ export function WhereToWatch({ watch }: { watch: WatchInfo }) {
 
   return (
     <section aria-labelledby="onde-assistir" className="space-y-3">
-      <h2 id="onde-assistir" className="text-lg font-semibold">Onde assistir (assinatura)</h2>
+      <h2 id="onde-assistir" className="text-2xl">Onde assistir (assinatura)</h2>
       {list}
-      <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted">
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-muted">
         {watch.link && (
-          <a href={watch.link} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">
-            Ver onde assistir no TMDB →
+          <a href={watch.link} target="_blank" rel="noopener noreferrer" className="font-semibold text-accent hover:underline">
+            Ver onde assistir no TMDB
           </a>
         )}
         <p>Dados de disponibilidade: JustWatch</p>

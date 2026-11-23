@@ -46,6 +46,7 @@ export function toMovieSummary(m: TmdbMovieListItem): MovieSummary {
     releaseDate: m.release_date || null,
     voteAverage: m.vote_average,
     voteCount: m.vote_count,
+    ...(m.overview ? { overview: m.overview } : {}),
   };
 }
 

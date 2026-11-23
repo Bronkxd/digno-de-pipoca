@@ -38,21 +38,21 @@ export function LoadMoreGrid({ initial, searchString }: { initial: DiscoverPage;
 
   return (
     <div className="space-y-6">
-      <ul className="grid grid-cols-2 gap-x-3 gap-y-6 sm:grid-cols-4 lg:grid-cols-6">
-        {movies.map((m) => (
-          <li key={m.id}>
+      <ul className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-4 lg:grid-cols-5">
+        {movies.map((m, i) => (
+          <li key={m.id} className={i >= initial.results.length ? "sobe" : undefined}>
             <MovieCard movie={m} />
           </li>
         ))}
       </ul>
-      {error && <p className="text-center text-sm text-red-300">Não foi possível carregar mais filmes. Tente de novo.</p>}
+      {error && <p className="text-center text-sm text-accent">Não foi possível carregar mais filmes. Tente de novo.</p>}
       {page < totalPages && (
         <div className="text-center">
           <button
             type="button"
             onClick={loadMore}
             disabled={loading}
-            className="rounded-full bg-accent px-6 py-2 font-medium text-background transition hover:brightness-110 disabled:opacity-60"
+            className="botao"
           >
             {loading ? "Carregando…" : "Carregar mais"}
           </button>

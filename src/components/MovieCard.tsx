@@ -10,14 +10,14 @@ export function MovieCard({ movie }: { movie: MovieSummary }) {
 
   return (
     <Link href={`/filme/${movie.id}`} className="group block w-full">
-      <div className="relative aspect-[2/3] overflow-hidden rounded-lg bg-surface ring-1 ring-white/5 transition group-hover:ring-accent/60">
+      <div className="relative aspect-[2/3] overflow-hidden rounded-lg bg-surface transition duration-200 group-hover:-translate-y-1.5 group-hover:-rotate-1 motion-reduce:transform-none">
         {poster ? (
           <Image
             src={poster}
             alt={`Pôster de ${movie.title}`}
             fill
             sizes="(max-width: 640px) 40vw, 180px"
-            className="object-cover transition duration-300 group-hover:scale-105"
+            className="object-cover"
           />
         ) : (
           <div aria-hidden className="flex h-full items-center justify-center p-3 text-center text-sm text-muted">
@@ -26,8 +26,8 @@ export function MovieCard({ movie }: { movie: MovieSummary }) {
         )}
       </div>
       <div className="mt-2 space-y-0.5">
-        <p className="line-clamp-2 text-sm font-medium leading-snug group-hover:text-accent">{movie.title}</p>
-        {year && <p className="text-xs text-muted">{year}</p>}
+        <p className="line-clamp-2 font-semibold leading-snug group-hover:text-accent">{movie.title}</p>
+        {year && <p className="text-sm text-muted">{year}</p>}
         <RatingBadge voteAverage={movie.voteAverage} voteCount={movie.voteCount} />
       </div>
     </Link>
