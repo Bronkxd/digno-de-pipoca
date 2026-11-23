@@ -16,7 +16,7 @@ export function PosterRow({ title, href, movies }: { title: string; href: string
           Ver tudo →
         </Link>
       </div>
-      <ul className="-mx-4 flex snap-x gap-3 overflow-x-auto px-4 pb-2 sm:mx-0 sm:px-0">
+      <ul className="-mx-4 flex snap-x scroll-px-4 gap-3 overflow-x-auto px-4 pb-2 sm:mx-0 sm:scroll-px-0 sm:px-0">
         {movies.map((m) => (
           <li key={m.id} className="w-32 shrink-0 snap-start sm:w-40">
             <MovieCard movie={m} />

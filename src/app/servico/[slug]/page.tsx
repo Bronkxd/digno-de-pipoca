@@ -12,8 +12,8 @@ export async function generateMetadata({ params }: PageProps<"/servico/[slug]">)
   const service = getServiceBySlug((await params).slug);
   if (!service) return { title: "Serviço não encontrado" };
   return {
-    title: `Melhores filmes na ${service.name}`,
-    description: `Os filmes em alta, mais bem avaliados e lançamentos incluídos na assinatura da ${service.name} no Brasil.`,
+    title: `Melhores filmes ${service.inName}`,
+    description: `Os filmes em alta, mais bem avaliados e lançamentos incluídos na assinatura ${service.inName} no Brasil.`,
   };
 }
 
@@ -33,7 +33,7 @@ export default async function ServicePage({ params }: PageProps<"/servico/[slug]
 
   return (
     <div className="space-y-10">
-      <h1 className="text-2xl font-bold sm:text-3xl">Filmes na {service.name}</h1>
+      <h1 className="text-2xl font-bold sm:text-3xl">Filmes {service.inName}</h1>
       {lists.map((list, i) => {
         const r = rows[i];
         return r.status === "fulfilled" ? (
@@ -41,7 +41,7 @@ export default async function ServicePage({ params }: PageProps<"/servico/[slug]
         ) : null;
       })}
       <section aria-labelledby="todos" className="space-y-4">
-        <h2 id="todos" className="text-lg font-semibold sm:text-xl">Todos os filmes na {service.name}</h2>
+        <h2 id="todos" className="text-lg font-semibold sm:text-xl">Todos os filmes {service.inName}</h2>
         <LoadMoreGrid initial={grid} searchString={toSearchString(q)} />
       </section>
     </div>

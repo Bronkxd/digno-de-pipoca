@@ -57,7 +57,7 @@ export function getHomeLists(today: Date): HomeList[] {
     },
     ...COVERED_SERVICES.map((s) => ({
       id: `servico-${s.slug}`,
-      title: `Destaques na ${s.name}`,
+      title: `Destaques ${s.inName}`,
       filters: { providerIds: s.tmdbProviderIds, ...SERVICE_HIGHLIGHTS, sortBy: "popularity.desc" as const },
       href: `/servico/${s.slug}`,
     })),
