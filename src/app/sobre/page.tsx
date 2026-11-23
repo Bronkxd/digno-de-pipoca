@@ -79,7 +79,7 @@ export default function AboutPage() {
       <section aria-labelledby="contato" className="max-w-2xl space-y-4 text-lg leading-relaxed">
         <h2 id="contato" className="text-2xl sm:text-3xl">Quem criou</h2>
         <p>
-          Sou Caio. Para falar sobre o projeto, escreva para{" "}
+          Me chamo Caio Maia. Para falar sobre o projeto, escreva para{" "}
           <a href="mailto:bronkxdev@gmail.com" className="font-semibold text-accent-dark underline underline-offset-4">
             bronkxdev@gmail.com
           </a>
